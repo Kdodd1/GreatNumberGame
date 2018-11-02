@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css.css') }}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+	.jumbotron{
+		text-align: center;
+	}
+	.card{
+
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.panel{
+		text-align:center;
+		margin-left: auto;
+		margin-right: auto;
+	}
+</style>
+	<title>Great Number Game</title>
+</head>
+<body>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Welcome to the Great Number Game!</h1> 
+    <p>I am thinking of a number between 1 and 100</p>
+    <p>Take a guess! {{session['randNum']}}</p>
+    <p>current guess {{session['guess']}}</p>
+  </div>
+{% if session['randNum'] == session['guess']%}
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Congratulations!</h5>
+    <p class="card-text">You guessed it!</p>
+    <form action="/reset", method="post">
+    <a href="/reset" class="btn btn-primary">Play again!</a>
+	</form>
+  </div>
+</div>
+{% endif %}
+{%if session['guess'] > 0 %}
+{% if session['randNum'] > session['guess'] %}
+<div class="container">
+  <div class="jumbotron">
+    <p>To low!</p> 
+    <p>Guess again!</p>
+  </div>
+</div>
+{% endif %}
+{% endif %}
+{% if session['randNum'] < session['guess']%}
+<div class="container">
+  <div class="jumbotron">
+    <p>To high!</p> 
+    <p>Guess again!</p>
+  </div>
+</div>
+{% endif %}
+<form action="/guess", method="post">
+  <div class="form-group">
+    <label for="text">Number here</label>
+
+    <input type="number" class="form-control" min="1" max= "100" name="guess">
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+</body>
+</html>
